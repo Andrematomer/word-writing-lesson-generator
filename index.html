@@ -62,30 +62,26 @@
         }
 
         #worksheet-container { width: 210mm; }
-        .page {
+         .page {
             background: white;
             width: 210mm;
             height: 297mm;
-            margin-bottom: 20px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            page-break-after: always;
             overflow: hidden;
+            /* Changed this part */
+            margin-bottom: 20px; 
+            page-break-after: always;
+            break-after: page;
         }
-        .unified-stack {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            width: 100%;
-        }
-        .stack-item {
-            position: relative;
-            display: flex;
-            justify-content: center;
-            line-height: 0;
+
+        /* Prevent blank page at the end */
+        .page:last-of-type {
+            margin-bottom: 0;
+            page-break-after: auto;
+            break-after: auto;
         }
 
         .tight-gap { margin-bottom: -30px; }
