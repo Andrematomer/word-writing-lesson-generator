@@ -2,8 +2,8 @@ const wordInput = document.getElementById('wordInput');
 const worksheetContainer = document.getElementById('worksheet-container');
 
 // Folder names matching your GitHub repo exactly
-const BLOCK_PATH = 'individual_block_export/';
-const LETTER_PATH = 'individual_letter_export/';
+const BLOCK_PATH = 'individual_block_svg/';
+const LETTER_PATH = 'individual_letter_svg/';
 
 wordInput.addEventListener('input', handleInput);
 
