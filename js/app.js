@@ -96,8 +96,8 @@ async function createPage(word, isOptimized) {
     traceRow.className = 'stack-item';
     if (isOptimized && !hasDescender(word)) { traceRow.classList.add('tight-gap'); }
 
-    // FETCH ___.svg
-    const bgSvg = await fetchSVG(`${BLOCK_PATH}___.svg`);
+    // FETCH blank.svg
+    const bgSvg = await fetchSVG(`${BLOCK_PATH}blank.svg`);
     if (bgSvg) {
         traceRow.appendChild(bgSvg);
         const overlay = document.createElement('div');
@@ -109,7 +109,7 @@ async function createPage(word, isOptimized) {
         traceRow.appendChild(overlay);
         stack.appendChild(traceRow);
     } else {
-        console.error("Critical: Could not load ___.svg from block folder.");
+        console.error("Critical: Could not load blank.svg from block folder.");
     }
 
     // 3. Blank Practice Block (The "Bottom Row")
@@ -117,7 +117,7 @@ async function createPage(word, isOptimized) {
     blankRow.className = 'stack-item';
     if (isOptimized) { blankRow.classList.add('tight-gap'); }
     
-    const bgBlank = await fetchSVG(`${BLOCK_PATH}___.svg`);
+    const bgBlank = await fetchSVG(`${BLOCK_PATH}blank.svg`);
     if (bgBlank) {
         blankRow.appendChild(bgBlank);
         stack.appendChild(blankRow);
