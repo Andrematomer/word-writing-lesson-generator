@@ -1,0 +1,125 @@
+/* Load the local font */
+@font-face {
+    font-family: 'Patrick Hand';
+    src: url('../Font/PatrickHand-Regular.ttf') format('truetype');
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: sans-serif;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* UI Controls */
+.ui-container {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    text-align: center;
+    margin-bottom: 30px;
+    width: 100%;
+    max-width: 600px;
+}
+
+.input-group { margin-bottom: 15px; }
+
+input {
+    padding: 10px;
+    font-size: 18px;
+    border-radius: 5px;
+    border: 2px solid #ccc;
+    text-align: center;
+}
+
+.print-btn {
+    padding: 12px 25px;
+    cursor: pointer;
+    background-color: #28a745; /* Green */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+}
+.print-btn:hover { background-color: #218838; }
+
+/* Worksheet Area */
+#worksheet {
+    background: white;
+    width: 210mm; /* A4 Width */
+    min-height: 297mm; /* A4 Height */
+    padding: 40px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Stacked Letters */
+#letter-stack {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+#letter-stack img {
+    display: block;
+    max-width: 80%; /* Adjusts if SVGs are too wide */
+    height: auto;
+    /* Negative margin to pull them closer if the SVGs have too much whitespace */
+    margin-bottom: 0; 
+}
+
+/* "Write: word" Text */
+#practice-label {
+    font-family: 'Patrick Hand', cursive;
+    font-size: 50px;
+    margin: 10px 0 20px 0;
+    color: #555;
+}
+
+/* Empty Boxes Row */
+#empty-boxes {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0; /* Remove gap if the SVGs include spacing */
+    width: 100%;
+}
+
+#empty-boxes img {
+    height: 120px; /* Force a consistent height for empty boxes */
+    width: auto;
+}
+
+/* --- PRINT SETTINGS --- */
+@media print {
+    body {
+        background: none;
+        padding: 0;
+        margin: 0;
+    }
+    
+    .no-print {
+        display: none !important;
+    }
+
+    #worksheet {
+        box-shadow: none;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+    }
+}

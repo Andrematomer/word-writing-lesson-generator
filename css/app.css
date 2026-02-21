@@ -1,0 +1,103 @@
+const wordInput = document.getElementById('wordInput');
+const optimizeCheckbox = document.getElementById('optimizeSpace');
+const worksheetContainer = document.getElementById('worksheet-container');
+
+const BLOCK_PATH = 'individual block export/';
+const LETTER_PATH = 'individual letter export/';
+
+// Re-render whenever text OR checkbox changes
+wordInput.addEventListener('input', handleInput);
+optimizeCheckbox.addEventListener('change', () => renderAllPages(wordInput.value));
+
+function handleInput(e) {
+    const val = e.target.value.replace(/[^a-zA-Z\n]/g, '');
+    if (val !== e.target.value) { wordInput.value = val; }
+    renderAllPages(val);
+}
+
+// Helper to check for descender letters (g, j, p, q, y)
+function hasDescender(str) {
+    return /[gjpqy]/.test(str);
+}
+
+function renderAllPages(text) {
+    worksheetContainer.innerHTML = '';
+    const words = text.split('\n').filter(w => w.trim().length > 0);
+    const isOptimized = optimizeCheckbox.checked;
+
+    words.forEach(word => {
+        const page = createPage(word, isOptimized);
+        worksheetContainer.appendChild(page);
+    });
+}
+
+function createPage(word, isOptimized) {
+    const pageDiv = document.createElement('div');
+    pageDiv.className = 'page';
+
+    const stack = document.createElement('div');
+    stack.className = 'unified-stack';
+
+    const allChars = word.split('');
+    const uniqueChars = [...new Set(allChars)];
+
+    // 1. Unique Individual Letter Blocks
+    uniqueChars.forEach(char => {
+        const item = document.createElement('div');
+        item.className = 'stack-item';
+        
+        // Apply tight gap ONLY if optimized and NOT a descender
+        if (isOptimized && !hasDescender(char)) {
+            item.classList.add('tight-gap');
+        }
+
+        const img = document.createElement('img');
+        img.src = `${BLOCK_PATH}${getFilename(char)}`;
+        item.appendChild(img);
+        stack.appendChild(item);
+    });
+
+    // 2. Traceable Word Block
+    const traceRow = document.createElement('div');
+    traceRow.className = 'stack-item';
+    
+    // Check if the whole word contains any descenders
+    if (isOptimized && !hasDescender(word)) {
+        traceRow.classList.add('tight-gap');
+    }
+
+    const bgTrace = document.createElement('img');
+    bgTrace.src = `${BLOCK_PATH}___.svg`;
+    traceRow.appendChild(bgTrace);
+
+    const overlay = document.createElement('div');
+    overlay.className = 'overlay-container';
+    allChars.forEach(char => {
+        const lImg = document.createElement('img');
+        lImg.src = `${LETTER_PATH}${getFilename(char)}`;
+        overlay.appendChild(lImg);
+    });
+    traceRow.appendChild(overlay);
+    stack.appendChild(traceRow);
+
+    // 3. Blank Practice Block (Always safe to tighten because it's empty)
+    const blankRow = document.createElement('div');
+    blankRow.className = 'stack-item';
+    if (isOptimized) {
+        blankRow.classList.add('tight-gap');
+    }
+    const bgBlank = document.createElement('img');
+    bgBlank.src = `${BLOCK_PATH}___.svg`;
+    blankRow.appendChild(bgBlank);
+    stack.appendChild(blankRow);
+
+    pageDiv.appendChild(stack);
+    return pageDiv;
+}
+
+function getFilename(char) {
+    return char === char.toUpperCase() ? `大_${char}.svg` : `小_${char}.svg`;
+}
+
+// Initial render
+renderAllPages(wordInput.value);
