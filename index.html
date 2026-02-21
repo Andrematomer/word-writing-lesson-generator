@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word Writing Lesson Generator</title>
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .ui-container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            text-align: center;
+            margin-bottom: 30px;
+            width: 100%;
+            max-width: 650px;
+        }
+        .ui-container h2 { margin-top: 0; color: #333; }
+        textarea {
+            width: 100%;
+            height: 120px;
+            padding: 10px;
+            font-size: 18px;
+            border-radius: 5px;
+            border: 2px solid #ccc;
+            resize: vertical;
+            text-align: center;
+            font-family: monospace;
+            margin-bottom: 15px;
+        }
+        .config-row {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+            font-size: 16px;
+            color: #444;
+        }
+        .config-row span { font-weight: bold; }
+        .config-row label { display: flex; align-items: center; gap: 5px; cursor: pointer; }
+        .print-btn {
+            padding: 12px 25px;
+            cursor: pointer;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        #worksheet-container { width: 210mm; }
+        .page {
+            background: white;
+            width: 210mm;
+            height: 297mm;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            page-break-after: always;
+            overflow: hidden;
+        }
+        .unified-stack {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+        .stack-item {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            line-height: 0;
+        }
+
+        .tight-gap { margin-bottom: -30px; }
+
+        .stack-item svg {
+            display: block;
+            height: 140px;
+            width: auto;
+        }
+
+        .overlay-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            pointer-events: none;
+        }
+        .overlay-container svg { height: 100%; width: auto; }
+
+        @media print {
+            body { background: none; padding: 0; margin: 0; }
+            .no-print { display: none !important; }
+            #worksheet-container { width: 100%; }
+            .page { box-shadow: none; margin: 0; width: 100%; height: 100vh; }
+            @page { size: A4 portrait; margin: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="ui-container no-print">
+        <h2>✏️ Word Writing Lesson Generator</h2>
+        <div class="input-group">
+            <textarea id="wordInput" placeholder="Car&#10;Sun&#10;Dog">Car
+Sun
+Dog</textarea>
+        </div>
+        
+        <div class="config-row">
+            <span>Block distribution:</span>
+            <label><input type="radio" name="distribution" value="equal" checked> equal</label>
+            <label><input type="radio" name="distribution" value="optimize"> optimize for space</label>
+        </div>
+
+        <button onclick="window.print()" class="print-btn">🖨️ Print / Save as PDF</button>
+    </div>
+
+    <div id="worksheet-container"></div>
+
+    <script src="js/app.js"></script>
+</body>
+</html>
