@@ -103,14 +103,15 @@
             display: flex;
             justify-content: center;
             line-height: 0;
+            width: 100%;
         }
 
-        /* Distribution Spacing */
         .tight-gap {
             margin-bottom: -30px; 
         }
 
-        .stack-item svg {
+        /* Ensure background block SVG fills the width correctly */
+        .stack-item > svg {
             display: block;
             margin: 0;
             padding: 0;
@@ -118,7 +119,7 @@
             width: auto;
         }
 
-        /* Fixed Overlay Logic */
+        /* FIXED OVERLAY LOGIC */
         .overlay-container {
             position: absolute;
             top: 0;
@@ -126,16 +127,18 @@
             width: 100%;
             height: 100%;
             display: flex;
-            justify-content: center;
+            justify-content: center; /* Center the whole word group */
             align-items: center;
             pointer-events: none;
         }
 
-        /* Ensure overlay SVGs stack on top of each other without pushing */
+        /* Overlay letters sit side-by-side with zero gaps */
         .overlay-container svg {
-            position: absolute;
+            display: block;
             height: 100%;
             width: auto;
+            margin: 0;
+            padding: 0;
         }
 
         @media print {

@@ -1,7 +1,6 @@
 const wordInput = document.getElementById('wordInput');
 const worksheetContainer = document.getElementById('worksheet-container');
 
-// Folders based on your current GitHub structure
 const BLOCK_PATH = 'individual_block_svg/';
 const LETTER_PATH = 'individual_letter_svg/';
 
@@ -21,12 +20,11 @@ function hasDescender(str) {
     return /[gjpqy]/.test(str);
 }
 
-// Fetch SVG and convert to DOM element
 async function fetchSVG(path) {
     try {
         const response = await fetch(path);
         if (!response.ok) {
-            console.error(`404 File Not Found: ${path}`);
+            console.error(`404: ${path}`);
             return null;
         }
         const svgText = await response.text();
@@ -35,7 +33,6 @@ async function fetchSVG(path) {
         const svgElement = xmlDoc.querySelector('svg');
 
         if (svgElement) {
-            // Remove dimensions to let CSS control height (140px)
             svgElement.removeAttribute('width');
             svgElement.removeAttribute('height');
             return svgElement;
@@ -74,7 +71,7 @@ async function createPage(word, isOptimized) {
     const allChars = word.split('');
     const uniqueChars = [...new Set(allChars)];
 
-    // 1. Unique Letter Blocks (Top teaching section)
+    // 1. Unique Letter Blocks
     for (const char of uniqueChars) {
         const item = document.createElement('div');
         item.className = 'stack-item';
@@ -87,21 +84,19 @@ async function createPage(word, isOptimized) {
         stack.appendChild(item);
     }
 
-    // 2. Traceable Word Block (Middle word section)
+    // 2. Traceable Word Block
     const traceRow = document.createElement('div');
     traceRow.className = 'stack-item';
     if (isOptimized && !hasDescender(word)) {
         traceRow.classList.add('tight-gap');
     }
 
-    // Load background block (renamed to blank.svg)
     const bgTrace = await fetchSVG(`${BLOCK_PATH}blank.svg`);
     if (bgTrace) traceRow.appendChild(bgTrace);
 
     const overlay = document.createElement('div');
     overlay.className = 'overlay-container';
     
-    // Add letter guides on top
     for (const char of allChars) {
         const lSvg = await fetchSVG(`${LETTER_PATH}${getFilename(char)}`);
         if (lSvg) overlay.appendChild(lSvg);
@@ -109,7 +104,7 @@ async function createPage(word, isOptimized) {
     traceRow.appendChild(overlay);
     stack.appendChild(traceRow);
 
-    // 3. Blank Practice Block (Bottom word section)
+    // 3. Blank Practice Block
     const blankRow = document.createElement('div');
     blankRow.className = 'stack-item';
     if (isOptimized) {
@@ -128,5 +123,4 @@ function getFilename(char) {
     return char === char.toUpperCase() ? `大_${char}.svg` : `小_${char}.svg`;
 }
 
-// Initial render
 renderAllPages(wordInput.value);
