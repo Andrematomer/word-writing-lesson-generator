@@ -1,3 +1,6 @@
+# 🚧 UNDER ACTIVE CONSTRUCTION 🚧
+# 🚧 DO NOT USE 🚧
+
 # Word Writing Lesson Generator ✏️
 
 Traditional alphabet practice can often feel like a chore for toddlers. Many children are hesitant to learn their ABCs through repetitive rote memorization and find generic worksheets uninspiring.
