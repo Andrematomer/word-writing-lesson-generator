@@ -6,6 +6,7 @@
     <title>Word Writing Lesson Generator</title>
     <style>
         * { box-sizing: border-box; }
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             background-color: #f0f0f0;
@@ -16,6 +17,7 @@
             align-items: center;
         }
 
+        /* UI Panel */
         .ui-container {
             background: white;
             padding: 20px;
@@ -26,7 +28,9 @@
             width: 100%;
             max-width: 650px;
         }
+
         .ui-container h2 { margin-top: 0; color: #333; }
+
         textarea {
             width: 100%;
             height: 120px;
@@ -39,6 +43,7 @@
             font-family: monospace;
             margin-bottom: 15px;
         }
+
         .config-row {
             display: flex;
             justify-content: center;
@@ -48,8 +53,10 @@
             font-size: 16px;
             color: #444;
         }
+
         .config-row span { font-weight: bold; }
         .config-row label { display: flex; align-items: center; gap: 5px; cursor: pointer; }
+
         .print-btn {
             padding: 12px 25px;
             cursor: pointer;
@@ -61,37 +68,57 @@
             font-weight: bold;
         }
 
+        /* Worksheet Styling */
         #worksheet-container { width: 210mm; }
-         .page {
+
+        .page {
             background: white;
             width: 210mm;
             height: 297mm;
             display: flex;
             flex-direction: column;
-            justify-content: center;
+            justify-content: center; 
             align-items: center;
             overflow: hidden;
-            /* Changed this part */
-            margin-bottom: 20px; 
+            margin-bottom: 20px;
             page-break-after: always;
             break-after: page;
         }
 
-        /* Prevent blank page at the end */
         .page:last-of-type {
             margin-bottom: 0;
             page-break-after: auto;
             break-after: auto;
         }
 
-        .tight-gap { margin-bottom: -30px; }
+        .unified-stack {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+
+        .stack-item {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            line-height: 0;
+        }
+
+        /* Distribution Spacing */
+        .tight-gap {
+            margin-bottom: -30px; 
+        }
 
         .stack-item svg {
             display: block;
+            margin: 0;
+            padding: 0;
             height: 140px;
             width: auto;
         }
 
+        /* Fixed Overlay Logic */
         .overlay-container {
             position: absolute;
             top: 0;
@@ -103,7 +130,13 @@
             align-items: center;
             pointer-events: none;
         }
-        .overlay-container svg { height: 100%; width: auto; }
+
+        /* Ensure overlay SVGs stack on top of each other without pushing */
+        .overlay-container svg {
+            position: absolute;
+            height: 100%;
+            width: auto;
+        }
 
         @media print {
             body { background: none; padding: 0; margin: 0; }
@@ -126,8 +159,12 @@ Dog</textarea>
         
         <div class="config-row">
             <span>Block distribution:</span>
-            <label><input type="radio" name="distribution" value="equal" checked> equal</label>
-            <label><input type="radio" name="distribution" value="optimize"> optimize for space</label>
+            <label>
+                <input type="radio" name="distribution" value="equal" checked> equal
+            </label>
+            <label>
+                <input type="radio" name="distribution" value="optimize"> optimize for space
+            </label>
         </div>
 
         <button onclick="window.print()" class="print-btn">🖨️ Print / Save as PDF</button>
